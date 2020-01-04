@@ -66,6 +66,12 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             # Move the ship to the left
             self.ship.moving_left = True
+        elif event.key == pygame.K_l:
+            # Move the ship to the right
+            self.ship.moving_right = True
+        elif event.key == pygame.K_h:
+            # Move the ship to the left
+            self.ship.moving_left = True
         elif event.key == pygame.K_q:
             # quit the game if q is pressed
             sys.exit()
@@ -79,10 +85,17 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             # Move the ship to the left
             self.ship.moving_left = False
+        elif event.key == pygame.K_l:
+            # Move the ship to the right
+            self.ship.moving_right = False
+        elif event.key == pygame.K_h:
+            # Move the ship to the left
+            self.ship.moving_left = False
 
     def _fire_bullet(self):
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _update_screen(self):
         #Redraw the screen during each pass through the loop.
