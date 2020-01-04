@@ -1,0 +1,5 @@
+In Python you can create classes
+In Python you can read and write from files
+In Python you can test conditions
+In Python you can have loops
+In Python you can work with lots of information
