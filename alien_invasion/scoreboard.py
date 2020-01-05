@@ -49,10 +49,11 @@ class Scoreboard:
         self.high_score_rect.top = self.score_rect.top
 
     def show_score(self):
-        """Draw score and level to the screen"""
+        """Draw score, level and ships to the screen"""
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
+        self.ships.draw(self.screen)
 
     def check_high_score(self):
         """Check to see if there's a new high score"""
@@ -72,3 +73,20 @@ class Scoreboard:
         self.level_rect.top = self.score_rect.bottom + 10
 
     def prep_ships(self):
+        """show how many ships are left"""
+        self.ships = Group()
+        for ship_number in range(self.stats.ships_left):
+            ship = Ship(self.ai_game)
+            if self.stats.ships_left == 2:
+                ship.rect.x = \
+                    self.screen_rect.centerx - ship_number * ship.rect.width
+            elif self.stats.ships_left == 3:
+                ship.rect.x = \
+                    self.screen_rect.centerx - ship_number * ship.rect.width \
+                    + (ship.rect.width / 2)
+            else:
+                ship.rect.x = \
+                    self.screen_rect.centerx - ship.rect.width / 2
+            ship.rect.y = 10
+            self.ships.add(ship)
+
