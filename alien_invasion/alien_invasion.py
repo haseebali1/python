@@ -1,6 +1,7 @@
 import sys
 from time import sleep
 import pygame
+import json
 
 from settings import Settings
 from ship import Ship
@@ -65,6 +66,8 @@ class AlienInvasion:
         for event in pygame.event.get():
             #exit the game by clicking the x
             if event.type == pygame.QUIT:
+                with open(self.settings.filename, 'w') as f:
+                    json.dump(self.stats.high_score, f)
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -115,6 +118,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             # quit the game if q is pressed
+            with open(self.settings.filename, 'w') as f:
+                json.dump(self.stats.high_score, f)
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
@@ -251,7 +256,7 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Respond to the ship being hit by an alien"""
-        if self.stats.ships_left > 0:
+        if self.stats.ships_left > 1:
             # Decrement ships left, and update scoreboard
             self.stats.ships_left -= 1
             self.sb.prep_ships()
