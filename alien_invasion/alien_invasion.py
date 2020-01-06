@@ -2,6 +2,7 @@ import sys
 from time import sleep
 import pygame
 import json
+import pygame.font
 
 from settings import Settings
 from ship import Ship
@@ -53,7 +54,7 @@ class AlienInvasion:
         while True:
             self._check_events()
 
-            if self.stats.game_active:
+            if self.stats.game_active == 1:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
@@ -80,7 +81,7 @@ class AlienInvasion:
     def _check_play_button(self, mouse_pos):
         """Start a new game when the player clicks Play."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.stats.game_active:
+        if button_clicked and self.stats.game_active == 0:
             # Reset the game settings.
             self.settings.initialze_dynamic_settings()
             self.sb.prep_score()
@@ -89,7 +90,7 @@ class AlienInvasion:
 
     def _start_game(self):
         self.stats.reset_stats()
-        self.stats.game_active = True
+        self.stats.game_active = 1
 
         #Get rid of any remaining aliens and bullets.
         self.aliens.empty()
@@ -101,6 +102,22 @@ class AlienInvasion:
 
         #hide the mouse cursor
         pygame.mouse.set_visible(False)
+
+    def _pause_game(self):
+        if self.stats.game_active == 2:
+            self.stats.game_active = 1
+        else:
+            self.stats.game_active = 2
+            self.pause_str = "Paused"
+            self.font = pygame.font.SysFont(None,48)
+            self.pause_image = self.font.render(self.pause_str, True, (30, 30, 30),
+                    self.settings.bg_color)
+
+            self.pause_rect = self.pause_image.get_rect()
+            self.pause_rect.centerx = self.screen.get_rect().centerx
+            self.pause_rect.centery = self.screen.get_rect().centery
+
+            self.screen.blit(self.pause_image, self.pause_rect)
 
     #Helper Methods
     def _check_keydown_events(self, event):
@@ -125,6 +142,8 @@ class AlienInvasion:
             self._fire_bullet()
         elif event.key == pygame.K_RETURN:
             self._start_game()
+        elif event.key == pygame.K_p:
+            self._pause_game()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -272,27 +291,28 @@ class AlienInvasion:
             # Pause
             sleep(0.5)
         else:
-            self.stats.game_active = False
+            self.stats.game_active = 0
             pygame.mouse.set_visible(True)
 
     def _update_screen(self):
-        #Redraw the screen during each pass through the loop.
-        #fill in the screen background
-        self.screen.fill(self.settings.bg_color)
-        #Draw the ship
-        self.ship.blitme()
+        if self.stats.game_active == 1:
+            #Redraw the screen during each pass through the loop.
+            #fill in the screen background
+            self.screen.fill(self.settings.bg_color)
+            #Draw the ship
+            self.ship.blitme()
 
-        for bullet in self.bullets.sprites():
-            bullet.draw_bullet()
+            for bullet in self.bullets.sprites():
+                bullet.draw_bullet()
 
-        # draw the alien , draw takes the surface on which to draw the alien
-        self.aliens.draw(self.screen)
+            # draw the alien , draw takes the surface on which to draw the alien
+            self.aliens.draw(self.screen)
 
-        #Draw the score information
-        self.sb.show_score()
+            #Draw the score information
+            self.sb.show_score()
 
         # Draw the play button if the game is inactive
-        if not self.stats.game_active:
+        if self.stats.game_active == 0:
             self.play_button.draw_button()
 
         # Make the most recently drawn screen visible.

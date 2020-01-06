@@ -6,8 +6,9 @@ class GameStats:
         """Initialize statistics"""
         self.settings = ai_game.settings
         self.reset_stats()
+
         # Start Alien Invasion in an inactive state
-        self.game_active = False
+        self.game_active = 0
 
         #High Score should never be reset
         with open(self.settings.filename) as f:
