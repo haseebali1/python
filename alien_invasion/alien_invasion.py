@@ -117,6 +117,8 @@ class AlienInvasion:
             self.pause_rect.centerx = self.screen.get_rect().centerx
             self.pause_rect.centery = self.screen.get_rect().centery
 
+            self.screen.fill(self.settings.bg_color)
+
             self.screen.blit(self.pause_image, self.pause_rect)
 
     #Helper Methods
@@ -295,11 +297,11 @@ class AlienInvasion:
             pygame.mouse.set_visible(True)
 
     def _update_screen(self):
-        if self.stats.game_active == 1:
-            #Redraw the screen during each pass through the loop.
-            #fill in the screen background
-            self.screen.fill(self.settings.bg_color)
+        #Redraw the screen during each pass through the loop.
+        #fill in the screen background
+        self.screen.fill(self.settings.bg_color)
             #Draw the ship
+        if self.stats.game_active == 1:
             self.ship.blitme()
 
             for bullet in self.bullets.sprites():
