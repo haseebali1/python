@@ -10,7 +10,7 @@ while True:
 
     # Plot the points in thw walk
     plt.style.use('classic')
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(19.2, 10.8))
     point_numbers = range(rw.num_points)
     ax.scatter(rw.x_values, rw.y_values, c=point_numbers, cmap=plt.cm.Blues,
             edgecolors = 'none', s=15)
