@@ -15,9 +15,11 @@ response_dict = r.json()
 repo_dicts = response_dict['items']
 
 # get the names and the stars for the first twenty repos
-repo_names, stars, labels = [], [], []
+repo_links, stars, labels = [], [], []
 for repo_dict in repo_dicts[:20]:
-    repo_names.append(repo_dict['name'])
+    repo_name = repo_dict['name']
+    repo_url = repo_dict['html_url']
+    repo_links.append(f"<a href='{repo_url}'>{repo_name}</a>")
     stars.append(repo_dict['stargazers_count'])
     label = f"{repo_dict['owner']['login']}<br />{repo_dict['description']}"
     labels.append(label)
@@ -25,7 +27,7 @@ for repo_dict in repo_dicts[:20]:
 # Make the bar graph
 data = [{
     'type' : 'bar',
-    'x' : repo_names,
+    'x' : repo_links,
     'y' : stars,
     'hovertext' : labels,
     'marker' : {
