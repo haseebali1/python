@@ -10,9 +10,15 @@ with open(filename) as f:
 all_eq_data = all_eq_data['features']
 
 #magnitudes
-mags = []
+mags, lons, lats = [], [], []
 
+# usually it is written lattitude and longtitude,but in this json format
+# longtitude is written first and then latitude
 for eq_data in all_eq_data:
     mags.append(eq_data['properties']['mag'])
+    lons.append(eq_data['geometry']['coordinates'][0])
+    lats.append(eq_data['geometry']['coordinates'][1])
 
 print(mags)
+print(lons[:10])
+print(lats[:10])
