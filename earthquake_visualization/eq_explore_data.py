@@ -9,6 +9,7 @@ with open(filename) as f:
 
 # Get all the features from the dictionary
 # which stores the information about each earthquake
+file_title = all_eq_data['metadata']['title']
 all_eq_data = all_eq_data['features']
 
 #magnitudes
@@ -34,7 +35,7 @@ data = [{
         'colorbar' : {'title' : 'Magnitude'}
         }
     }]
-my_layout = Layout(title='Global Earthquakes')
+my_layout = Layout(title=file_title)
 
 fig = {'data': data, 'layout': my_layout}
 offline.plot(fig, filename='global_earthquakes.html')
