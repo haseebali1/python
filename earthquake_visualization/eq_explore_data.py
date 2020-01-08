@@ -5,6 +5,14 @@ filename = 'data/eq_data_1_day_m1.json'
 with open(filename) as f:
     all_eq_data = json.load(f)
 
-readable_file = 'data/readable_eq_data.json'
-with open(readable_file, 'w') as f:
-    json.dump(all_eq_data, f, indent = 4)
+# Get all the features from the dictionary
+# which stores the information about each earthquake
+all_eq_data = all_eq_data['features']
+
+#magnitudes
+mags = []
+
+for eq_data in all_eq_data:
+    mags.append(eq_data['properties']['mag'])
+
+print(mags)
