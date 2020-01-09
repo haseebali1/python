@@ -16,6 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from . import views
+
+app_name = 'learning_logs'
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Home Page
+    path('',views.index, name='index')
 ]
