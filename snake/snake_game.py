@@ -21,7 +21,23 @@ class SnakeGame:
     def run_game(self):
         """Start the main loop for the game"""
         while True:
+            self._check_events()
+
             self._update_screen()
+
+    #Helper Method
+    def _check_events(self):
+        #watch for keyboard and mouse events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+
+    def _check_keydown_events(self, event):
+        if event.key == pygame.K_q:
+            sys.exit()
+
 
     def _update_screen(self):
         #Redraw the screen during each pass through the loop
